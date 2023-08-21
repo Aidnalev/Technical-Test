@@ -1,10 +1,9 @@
 fileFormatVersion: 2
-guid: e07ebf8fe68129a4683758bd5d267b69
+guid: 7e0b6476d81f6384583f7725208c4fa5
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - battleEventController: {fileID: 5817704327741949559, guid: 9f35db043b200cf42bcd3c09c9cab610, type: 3}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

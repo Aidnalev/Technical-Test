@@ -15,4 +15,13 @@ public class GameController : MonoBehaviour
 
     public void EnemyTurn() => battleStateMachine.ChangeState(GameState.EnemyTurn); // Inicia el turno del enemigo
 
+    public void SelectEnemy(EnemyController enemy) => battleStateMachine.SetCurrentEnemy(enemy);
+    public void PlayerDamage(int damage)
+    {
+        battleStateMachine.PInflictDamage(damage);
+    }
+    public void EnemyDamage(int damage)
+    {
+        battleStateMachine.EInflictDamage(damage);
+    }
 }
