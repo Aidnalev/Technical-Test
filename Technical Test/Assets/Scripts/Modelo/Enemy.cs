@@ -32,7 +32,7 @@ public class Enemy : MonoBehaviour
         // Esperar un tiempo antes de cambiar al turno del jugador
         yield return new WaitForSeconds(1f); // Ajusta el tiempo de espera según sea necesario
 
-        GameController.Instance.PlayerTurn(); // Cambiar al turno del jugador
+        GameController.Instance.Turn(GameState.PlayerTurn); // Cambiar al turno del jugador
     }
     protected IEnumerator DelayedTurn()
     {

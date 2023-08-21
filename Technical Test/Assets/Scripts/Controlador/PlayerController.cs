@@ -14,21 +14,21 @@ public class PlayerController : MonoBehaviour
         inBlock = false;
         // Lógica para el ataque
         Debug.Log("¡Has realizado un ataque!");
-        GameController.Instance.EnemyTurn();
+        GameController.Instance.Turn(GameState.EnemyTurn);
     }
 
     public void Block()
     {
         inBlock = true;
         Debug.Log("¡Bloqueado!");
-        GameController.Instance.EnemyTurn();
+        GameController.Instance.Turn(GameState.EnemyTurn);
     }
     public void Heal()
     {
         inBlock = false;
         player.currentHealth += player.healValue;
         Debug.Log("¡Has usado una habilidad especial!");
-        GameController.Instance.EnemyTurn();
+        GameController.Instance.Turn(GameState.EnemyTurn);
     }
     public void ReceiveDamage(int damage)
     {
@@ -41,5 +41,29 @@ public class PlayerController : MonoBehaviour
         {
             player.currentHealth -= damage;
         }
+    }
+    public GameState VerifyGameOver(GameState state)
+    {
+        if (player.currentHealth <= 0)
+        {
+            return GameState.GameOver;
+        }
+        else
+        {
+            return state;
+        }
+    }
+    public void EarnMoney()
+    {
+        int randomValue = Random.Range(80, 101);
+        player.currency += randomValue;
+    }
+    public void Purchase(int price)
+    {
+        player.currency -= price;
+    }
+    public void Sell(int price)
+    {
+        player.currency += price;
     }
 }

@@ -3,23 +3,41 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     private bool onBattle = false;
-    public BattleEventController battleEventController;
+    [SerializeField] private GameObject nextEnemy; 
 
-    public void Start()
-    {
-        battleEventController.onBattleOver.AddListener(BattleOff);
-    }
     private void OnMouseDown()
     {
         if (onBattle == false)
         {
             GameController.Instance.SelectEnemy(this);
-            GameController.Instance.PlayerTurn();
+            GameController.Instance.Turn(GameState.PlayerTurn);
             onBattle = true;
         }
     }
-    public void BattleOff() => onBattle = false;
-
     public void EnemyAction() => this.GetComponent<Enemy>().WaitForSelect();
+    public GameState VerifyDeath(GameState state)
+    {
+        if (this.GetComponent<Enemy>().currentHealth <= 0)
+        {
+            return GameState.BattleOver;
+        }
+        else
+        {
+            return state;
+        }
+
+    }
+    public void NextStep()
+    {
+        if (nextEnemy)
+        {
+            GameController.Instance.SpawnNextEnemy(nextEnemy);
+        }
+        else
+        {
+            GameController.Instance.WinGame();
+        }
+        Destroy(gameObject);
+    }
 }
 

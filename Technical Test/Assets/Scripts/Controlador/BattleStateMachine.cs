@@ -21,7 +21,6 @@ public class BattleStateMachine : MonoBehaviour
     }
     public void ChangeState(GameState newState)
     {
-        UpdateLifes();
         currentState = newState;
         HandleStateChange();
     }
@@ -43,17 +42,38 @@ public class BattleStateMachine : MonoBehaviour
                 break;
 
             case GameState.BattleOver:
-                // Lógica para el final del combate
                 battleEvents.onBattleOver.Invoke();
+                currentEnemy.NextStep();
+                break;
+            case GameState.GameOver:
+                battleEvents.onGameOver.Invoke();
                 break;
         }
     }
-    public void PInflictDamage(int damage)
+    public void PInflictDamage(int damage) => currentEnemy.GetComponent<Enemy>().ReceiveDamage(damage);
+    public void EInflictDamage(int damage) => player.ReceiveDamage(damage);
+    public void SpawnEnemy(GameObject enemy) => battleEvents.onSpawnEnemy.Invoke(enemy);
+    public void VerificationState(GameState newState)
     {
-        currentEnemy.GetComponent<Enemy>().ReceiveDamage(damage);
+        newState = currentEnemy.VerifyDeath(newState);
+        newState = player.VerifyGameOver(newState); //Verificar si ya perdio el jugador
+        UpdateLifes(); //Actualizar vidas
+        ChangeState(newState);
     }
-    public void EInflictDamage(int damage)
+    public void YouWin() => battleEvents.onYouWin.Invoke();
+    public void Purchase(ItemBase item)
     {
-        player.ReceiveDamage(damage);
+        if (player.GetComponent<PlayerAttributes>().currency>= item.buyPrice)
+        {
+            player.Purchase(item.buyPrice);
+            item.isAvailable = false;
+            battleEvents.onPurchase.Invoke(item);
+        }
+    }
+    public void Sell(ItemBase item)
+    {
+        player.Sell(item.sellPrice);
+        item.isAvailable = true;
+        battleEvents.onSell.Invoke();
     }
 }

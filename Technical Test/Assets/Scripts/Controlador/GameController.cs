@@ -11,17 +11,16 @@ public class GameController : MonoBehaviour
         battleStateMachine = GetComponent<BattleStateMachine>();
     }
 
-    public void PlayerTurn() => battleStateMachine.ChangeState(GameState.PlayerTurn); // Inicia el turno del jugador
-
-    public void EnemyTurn() => battleStateMachine.ChangeState(GameState.EnemyTurn); // Inicia el turno del enemigo
+    public void Turn(GameState state) => battleStateMachine.VerificationState(state);
 
     public void SelectEnemy(EnemyController enemy) => battleStateMachine.SetCurrentEnemy(enemy);
-    public void PlayerDamage(int damage)
-    {
-        battleStateMachine.PInflictDamage(damage);
-    }
-    public void EnemyDamage(int damage)
-    {
-        battleStateMachine.EInflictDamage(damage);
-    }
+
+    public void PlayerDamage(int damage) => battleStateMachine.PInflictDamage(damage);
+ 
+    public void EnemyDamage(int damage) => battleStateMachine.EInflictDamage(damage);
+
+    public void SpawnNextEnemy(GameObject enemy) => battleStateMachine.SpawnEnemy(enemy);
+    public void WinGame() => battleStateMachine.YouWin();
+    public void PurchaseItem(ItemBase item) => battleStateMachine.Purchase(item);
+    public void SellItem(ItemBase item) => battleStateMachine.Sell(item);
 }

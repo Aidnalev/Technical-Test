@@ -12,7 +12,6 @@ public class EnemyVirtual : Enemy
 
     public override void Special()
     {
-        Debug.Log("¡Has realizado special!");
         activeDodge = true;
         StartCoroutine(DelayedPlayerTurn());
     }

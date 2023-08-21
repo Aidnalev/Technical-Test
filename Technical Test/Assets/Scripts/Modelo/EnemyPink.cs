@@ -1,8 +1,6 @@
-using UnityEngine;
-
 public class EnemyPink : Enemy
 {
-    private int healValue = 10;
+    private int healValue = 9;
     private int porcentajeHealth = 40;
     public EnemyPink()
     {
@@ -18,7 +16,7 @@ public class EnemyPink : Enemy
     public override void SelectAction()
     {
 
-        if (currentHealth >= maxHealth*(porcentajeHealth/100))
+        if (currentHealth <= maxHealth*(porcentajeHealth/100))
         {
             Special();
         }

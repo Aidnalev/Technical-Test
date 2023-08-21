@@ -1,12 +1,14 @@
-public class EnemyFrog : Enemy
+public class EnemyBoss : Enemy
 {
     private int defenseValue = 8;
     private bool activeDefense = false;
     private int currentValue = 0;
-    public EnemyFrog()
+    private int porcentajeHealth = 40;
+    private int healValue = 9;
+    public EnemyBoss()
     {
-        maxHealth = 60;      // Ajusta la vida para Frog
-        attackPower = 10;    // Ajusta el poder de ataque para Frog
+        maxHealth = 100;      // Ajusta la vida para Frog
+        attackPower = 15;    // Ajusta el poder de ataque para Frog
     }
     public override void Special()
     {
@@ -20,7 +22,11 @@ public class EnemyFrog : Enemy
     }
     public override void SelectAction()
     {
-        if (currentValue == 0)
+        if (currentHealth <= maxHealth * (porcentajeHealth / 100))
+        {
+            Special2();
+        }
+        else if (currentValue == 0)
         {
             Attack();
         }
@@ -29,6 +35,12 @@ public class EnemyFrog : Enemy
             Special();
         }
         currentValue = 1 - currentValue;
+    }
+    public void Special2()
+    {
+        currentHealth += healValue;
+        activeDefense = false;
+        StartCoroutine(DelayedPlayerTurn());
     }
     public override void ReceiveDamage(int damage)
     {
